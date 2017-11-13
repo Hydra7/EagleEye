@@ -48,9 +48,9 @@ else:
         target = 'https://' + target
 
 def sqli(url):
-    print '''\033[1;32m[+]\033[1;m Using SQLMap api to check for SQL injection vulnerabilities. Don\'t
+    print('''\033[1;32m[+]\033[1;m Using SQLMap api to check for SQL injection vulnerabilities. Don\'t
     worry we are using an online service and it doesn\' depend on your internet connection.
-    This scan will take 2-3 minutes.'''
+    This scan will take 2-3 minutes.''')
     sqli = br.open('https://suip.biz/?act=sqlmap').read()
     br.select_form(nr=0)
     br.form['url'] = url
@@ -58,17 +58,17 @@ def sqli(url):
     result = req.read()
     match = search(r"---(?s).*---", result)
     if match:
-        print '\033[1;32m[+]\033[1;m One or more parameters are vulnerable to SQL injection'
+        print('\033[1;32m[+]\033[1;m One or more parameters are vulnerable to SQL injection')
         option = raw_input(
             '\033[1;32m[+]\033[1;m Would you like to see the whole report? [Y/n] ').lower()
         if option == 'n':
             pass
         else:
-            print"\033[1;31m-\033[1;m" * 40
+            print("\033[1;31m-\033[1;m")* 40
             print match.group().split('---')[1][:-3]
-            print"\033[1;31m-\033[1;m" * 40
+            print("\033[1;31m-\033[1;m")* 40
     else:
-        print '\033[1;31m[-]\033[1;m None of parameters is vulnerable to SQL injection'
+        print('\033[1;31m[-]\033[1;m None of parameters is vulnerable to SQL injection')
 
 
 def cms(domain):
@@ -83,7 +83,7 @@ def cms(domain):
         except:
             pass
         if detect:
-            print "\033[1;32m[+]\033[0m CMS Detected : " + detect.group().split('">')[1][:-27]
+            print("\033[1;32m[+]\033[0m CMS Detected : ")+ detect.group().split('">')[1][:-27]
             detect = detect.group().split('">')[1][:-27]
             if 'WordPress' in detect:
                 option = raw_input(
@@ -93,7 +93,7 @@ def cms(domain):
                 else:
                     os.system('wpscan --random-agent --url %s' % domain)
         elif WordPress:
-            print "\033[1;32m[+]\033[0m CMS Detected : WordPress"
+            print("\033[1;32m[+]\033[0m CMS Detected : WordPress")
             option = raw_input(
                 '\033[1;32m[+]\033[1;m Would you like to use WPScan? [Y/n] ').lower()
             if option == 'n':
@@ -101,7 +101,7 @@ def cms(domain):
             else:
                 os.system('wpscan --random-agent --url %s' % domain)
         else:
-            print "\033[1;32m[+]\033[0m " + domain + " doesn't seem to use a CMS"
+            print("\033[1;32m[+]\033[0m " + domain + ")doesn't seem to use a CMS"
     except:
         pass
 
@@ -110,27 +110,27 @@ def honeypot(ip_addr):
     try:
         phoney = br.open(honey).read()
         if '0.0' in phoney:
-            print "\033[1;32m[+]\033[1;m Honeypot Probabilty: 0%"
+            print("\033[1;32m[+]\033[1;m Honeypot Probabilty: 0%")
         elif '0.1' in phoney:
-            print "\033[1;32m[+]\033[1;m Honeypot Probabilty: 10%"
+            print("\033[1;32m[+]\033[1;m Honeypot Probabilty: 10%")
         elif '0.2' in phoney:
-            print "\033[1;32m[+]\033[1;m Honeypot Probabilty: 20%"
+            print("\033[1;32m[+]\033[1;m Honeypot Probabilty: 20%")
         elif '0.3' in phoney:
-            print "\033[1;32m[+]\033[1;m Honeypot Probabilty: 30%"
+            print("\033[1;32m[+]\033[1;m Honeypot Probabilty: 30%")
         elif '0.4' in phoney:
-            print "\033[1;32m[+]\033[1;m Honeypot Probabilty: 40%"
+            print("\033[1;32m[+]\033[1;m Honeypot Probabilty: 40%")
         elif '0.5' in phoney:
-            print "\033[1;31m[-]\033[1;m Honeypot Probabilty: 50%"
+            print("\033[1;31m[-]\033[1;m Honeypot Probabilty: 50%")
         elif '0.6' in phoney:
-            print "\033[1;31m[-]\033[1;m Honeypot Probabilty: 60%"
+            print("\033[1;31m[-]\033[1;m Honeypot Probabilty: 60%")
         elif '0.7' in phoney:
-            print "\033[1;31m[-]\033[1;m Honeypot Probabilty: 70%"
+            print("\033[1;31m[-]\033[1;m Honeypot Probabilty: 70%")
         elif '0.8' in phoney:
-            print "\033[1;31m[-]\033[1;m Honeypot Probabilty: 80%"
+            print("\033[1;31m[-]\033[1;m Honeypot Probabilty: 80%")
         elif '0.9' in phoney:
-            print "\033[1;31m[-]\033[1;m Honeypot Probabilty: 90%"
+            print("\033[1;31m[-]\033[1;m Honeypot Probabilty: 90%")
         elif '1.0' in phoney:
-            print "\033[1;31m[-]\033[1;m Honeypot Probabilty: 100%"
+            print("\033[1;31m[-]\033[1;m Honeypot Probabilty: 100%")
     except:
         print '\033[1;31m[-]\033[1;m Honeypot prediction failed'
 
@@ -150,7 +150,7 @@ def bypass(domain):
     match = search(r' \b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b', result)
     if match:
         bypass.ip_addr = match.group().split(' ')[1][:-1]
-        print '\033[1;32m[+]\033[1;m Real IP Address : ' + bypass.ip_addr
+        print('\033[1;32m[+]\033[1;m Real IP Address : ')+ bypass.ip_addr
 
 def dnsdump(domain):
     res = DNSDumpsterAPI(False).search(domain)
@@ -170,7 +170,7 @@ def dnsdump(domain):
     print('\n\033[1;32m[+]\033[1;m TXT Records')
     for entry in res['dns_records']['txt']:
         print(entry)
-    print '\n\033[1;32m[+]\033[1;m DNS Map: https://dnsdumpster.com/static/map/%s.png\n' % domain
+    print('\n\033[1;32m[+]\033[1;m DNS Map: https://dnsdumpster.com/static/map/%s.png\n')% domain
 
 
 def fingerprint(ip_addr):
@@ -178,33 +178,33 @@ def fingerprint(ip_addr):
         result = br.open('https://www.censys.io/ipv4/%s/raw' % ip_addr).read()
         match = search(r'&#34;os_description&#34;: &#34;[^<]*&#34;', result)
         if match:
-            print '\033[1;32m[+]\033[1;m Operating System : ' + match.group().split('n&#34;: &#34;')[1][:-5]
+            print('\033[1;32m[+]\033[1;m Operating System : ')+ match.group().split('n&#34;: &#34;')[1][:-5]
     except:
          pass
 
 
 ip_addr = socket.gethostbyname(domain)
-print '\033[1;32m[+]\033[0m IP Address : %s' % ip_addr
+print('\033[1;32m[+]\033[0m IP Address : %s')% ip_addr
 try:
     r = requests.get(target)
     header = r.headers['Server']
     if 'cloudflare' in header:
-        print '\033[1;32m[+]\033[1;m Cloudflare detected'
+        print('\033[1;32m[+]\033[1;m Cloudflare detected')
         bypass(domain)
         try:
             ip_addr = bypass.ip_addr
         except:
             pass
     else:
-        print '\033[1;32m[+]\033[0m Server: ' + header
+        print('\033[1;32m[+]\033[0m Server: ')+ header
     try:
-        print '\033[1;32m[+]\033[0m Powered By: ' + r.headers['X-Powered-By']
+        print('\033[1;32m[+]\033[0m Powered By: ')+ r.headers['X-Powered-By']
     except:
         pass
     try:
         r.headers['X-Frame-Options']
     except:
-        print '\033[1;32m[+]\033[1;m Clickjacking protection is not in place.'
+        print('\033[1;32m[+]\033[1;m Clickjacking protection is not in place.')
 except:
     pass
 fingerprint(ip_addr)
@@ -212,18 +212,18 @@ cms(domain)
 honeypot(ip_addr)
 try:
     r = br.open(target + '/robots.txt').read()
-    print "\033[1;31m-\033[1;m" * 40
-    print '\033[1;32m[+]\033[1;m Robots.txt retrieved\n', r
+    print("\033[1;31m-\033[1;m")* 40
+    print('\033[1;32m[+]\033[1;m Robots.txt retrieved\n'), r
 except:
     pass
-print"\033[1;31m-\033[1;m" * 40
+print("\033[1;31m-\033[1;m")* 40
 nmap(ip_addr)
-print"\033[1;31m-\033[1;m" * 40
+print("\033[1;31m-\033[1;m")* 40
 dnsdump(domain)
 os.system('cd plugins && python theHarvester.py -d %s -b all' % domain)
 try:
     br.open(target)
-    print '\033[1;32m[+]\033[1;m Crawling the target for fuzzable URLs'
+    print('\033[1;32m[+]\033[1;m Crawling the target for fuzzable URLs')
     for link in br.links():
         if 'http' in link.url or '=' not in link.url:
             pass
@@ -231,18 +231,18 @@ try:
             url = target + '/' + link.url
             params.append(url)
     if len(params) == 0:
-        print '\033[1;32m[+]\033[1;m No fuzzable URLs found'
+        print('\033[1;32m[+]\033[1;m No fuzzable URLs found')
         quit()
-    print '\033[1;32m[+]\033[1;m Found %i fuzzable URLs' % len(params)
+    print('\033[1;32m[+]\033[1;m Found %i fuzzable URLs')% len(params)
     for url in params:
         print url
         sqli(url)
         url = url.replace('=', '<svg/onload=alert()>')
         r = br.open(url).read()
         if '<svg/onload=alert()>' in r:
-            print '\033[1;32m[+]\033[1;m One or more parameters are vulnerable to XSS'
+            print('\033[1;32m[+]\033[1;m One or more parameters are vulnerable to XSS')
         break
-    print '\033[1;32m[+]\033[1;m These are the URLs having parameters:'
+    print('\033[1;32m[+]\033[1;m These are the URLs having parameters:')
     for url in params:
         print url
 except:
